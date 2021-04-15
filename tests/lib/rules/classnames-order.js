@@ -183,5 +183,45 @@ ruleTester.run("classnames-order", rule, {
         },
       ],
     },
+    {
+      code: `
+      import tw from 'twin.macro'
+      tw\`md:text-lg text-sm\`
+      `,
+      output: `
+      import tw from 'twin.macro'
+      tw\`text-sm md:text-lg\`
+      `,
+      errors: errors,
+    },
+    {
+      code: `
+      import 'twin.macro'
+      const Input = () => <input tw="sm:w-12 flex w-6" />`,
+      output: `
+      import 'twin.macro'
+      const Input = () => <input tw="flex w-6 sm:w-12" />`,
+      errors: errors,
+    },
+    {
+      code: `
+      import tw from 'twin.macro'
+      const Input = tw.input\`sm:w-12 flex w-6\``,
+      output: `
+      import tw from 'twin.macro'
+      const Input = tw.input\`flex w-6 sm:w-12\``,
+      errors: errors,
+    },
+    {
+      code: `
+      import tw from 'twin.macro'
+      const Input = tw.input\`flex w-6 sm:w-12\`
+      const PaddingInput = tw(Input)\`sm:py-2 py-1\``,
+      output: `
+      import tw from 'twin.macro'
+      const Input = tw.input\`flex w-6 sm:w-12\`
+      const PaddingInput = tw(Input)\`py-1 sm:py-2\``,
+      errors: errors,
+    },
   ],
 });
