@@ -2,11 +2,15 @@
 
 ![npm (scoped)](https://img.shields.io/npm/v/eslint-plugin-tailwindcss?style=for-the-badge) ![npm bundle size (scoped)](https://img.shields.io/npm/l/eslint-plugin-tailwindcss?style=for-the-badge)
 
-![eslint-plugin-tailwindcss logo](https://repository-images.githubusercontent.com/350840995/d9bbe080-9211-11eb-8148-0a9167a8b3ff)
+![eslint-plugin-tailwindcss logo](https://user-images.githubusercontent.com/704026/117105634-bd661300-ad7e-11eb-9cf1-a05ba130da34.png)
 
-Rules enforcing best practices and consistency using [Tailwind CSS](https://tailwindcss.com/) v2.1.0
+Rules enforcing best practices and consistency using [Tailwind CSS](https://tailwindcss.com/) v2.1.1
 
-**The plugin will parse the `tailwind.config.js` file and use the correct values based on your own settings. 👍**
+> **🎉 Since v1.5.0, the plugin will parse the `tailwind.config.js` file and use the correct values based on your own settings.**
+>
+> 👍 Most of [the new JIT mode features](https://tailwindcss.com/docs/just-in-time-mode#new-features) are also supported.
+ 
+![detected-errors](https://user-images.githubusercontent.com/704026/117103443-ac1b0780-ad7a-11eb-9c17-41f0de3e4dc4.png)
 
 ## Installation
 
@@ -46,9 +50,11 @@ Configure the rules you want to use under the rules section.
 }
 ```
 
-Learn more about [Configuring Rules](https://eslint.org/docs/user-guide/configuring/rules).
+Learn more about [Configuring Rules in ESLint](https://eslint.org/docs/user-guide/configuring/rules).
 
 ## Supported Rules
+
+Learn more about each supported rules by reading their documentation:
 
 - [`classnames-order`](docs/rules/classnames-order.md): order classnames by target properties then by variants (`[size:][theme:][state:]`)
 - [`no-custom-classname`](docs/rules/no-custom-classname.md): only allow classnames from Tailwind CSS
