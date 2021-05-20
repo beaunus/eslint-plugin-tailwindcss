@@ -92,6 +92,22 @@ ruleTester.run("no-custom-classname", rule, {
         },
       ],
     },
+    {
+      code: `<div className="flex skin-summer custom-2">whitelisted</div>`,
+      options: [
+        {
+          whitelist: ["skin\\-(summer|xmas)", "custom\\-[1-3]"],
+        },
+      ],
+    },
+    {
+      code: `<div className="text-foo border-bar">defined in textColor</div>`,
+      options: [
+        {
+          config: { theme: { textColor: { foo: "#123456" }, borderColor: { bar: "#654321" } } },
+        },
+      ],
+    },
   ],
 
   invalid: [
@@ -203,6 +219,22 @@ ruleTester.run("no-custom-classname", rule, {
           messageId: "customClassnameDetected",
           data: {
             classname: "hello-world",
+          },
+        },
+      ],
+    },
+    {
+      code: `<div className="flex skin-summer custom-2 custom-not-whitelisted">incomplete whitelist</div>`,
+      options: [
+        {
+          whitelist: ["skin\\-(summer|xmas)", "custom\\-[1-3]"],
+        },
+      ],
+      errors: [
+        {
+          messageId: "customClassnameDetected",
+          data: {
+            classname: "custom-not-whitelisted",
           },
         },
       ],
