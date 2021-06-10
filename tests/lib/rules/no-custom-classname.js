@@ -28,7 +28,12 @@ var ruleTester = new RuleTester({ parserOptions });
 ruleTester.run("no-custom-classname", rule, {
   valid: [
     {
-      code: `<div class="container box-content lg:box-border max-h-24">Only Tailwind CSS classnames</div>`,
+      code: `<div class="container box-content lg:box-border max-h-24 self-end">Only Tailwind CSS classnames</div>`,
+    },
+    {
+      code: `<template><div class="container box-content lg:box-border max-h-24 self-end">Only Tailwind CSS classnames</div></template>`,
+      filename: "test.vue",
+      parser: require.resolve("vue-eslint-parser"),
     },
     {
       code: `
@@ -108,6 +113,24 @@ ruleTester.run("no-custom-classname", rule, {
         },
       ],
     },
+    {
+      code: `
+      <div class="group border-indigo-500 hover:bg-white hover:shadow-lg hover:border-transparent">
+      <p class="text-indigo-600 group-hover:text-gray-900">New Project</p>
+      <p class="text-indigo-500 group-hover:text-gray-500">Create a new project from a variety of starting templates.</p>
+      </div>`,
+    },
+    {
+      code: `
+      <div class="some base white-listed classnames">
+        from css file
+      </div>`,
+      options: [
+        {
+          cssFiles: ["./tests/**/*.css"],
+        },
+      ],
+    },
   ],
 
   invalid: [
@@ -121,6 +144,19 @@ ruleTester.run("no-custom-classname", rule, {
           },
         },
       ],
+    },
+    {
+      code: `<template><div class="w-12 my-custom">my-custom is not defined in Tailwind CSS!</div></template>`,
+      errors: [
+        {
+          messageId: "customClassnameDetected",
+          data: {
+            classname: "my-custom",
+          },
+        },
+      ],
+      filename: "test.vue",
+      parser: require.resolve("vue-eslint-parser"),
     },
     {
       code: `<div class="hello world">2 classnames are not defined in Tailwind CSS!</div>`,
@@ -224,6 +260,51 @@ ruleTester.run("no-custom-classname", rule, {
       ],
     },
     {
+      code: `
+      ctl(\`
+        px-4
+        custom-1
+        py-1
+        \${
+          !isDisabled &&
+          \`
+            lg:focus:ring-1
+            custom-2
+            focus:ring-2
+          \`
+        }
+        \${
+          isDisabled &&
+          \`
+            lg:opacity-25
+            custom-3
+            opacity-50
+          \`
+        }
+      \`)
+      `,
+      errors: [
+        {
+          messageId: "customClassnameDetected",
+          data: {
+            classname: "custom-2",
+          },
+        },
+        {
+          messageId: "customClassnameDetected",
+          data: {
+            classname: "custom-3",
+          },
+        },
+        {
+          messageId: "customClassnameDetected",
+          data: {
+            classname: "custom-1",
+          },
+        },
+      ],
+    },
+    {
       code: `<div className="flex skin-summer custom-2 custom-not-whitelisted">incomplete whitelist</div>`,
       options: [
         {
@@ -235,6 +316,37 @@ ruleTester.run("no-custom-classname", rule, {
           messageId: "customClassnameDetected",
           data: {
             classname: "custom-not-whitelisted",
+          },
+        },
+      ],
+    },
+    {
+      code: `ctl(\`\${enabled && "px-2 yo flex"}\`)`,
+      errors: [
+        {
+          messageId: "customClassnameDetected",
+          data: {
+            classname: "yo",
+          },
+        },
+      ],
+    },
+    {
+      code: `
+      <div
+        className={clsx(
+          "w-full h-10 rounded",
+          name === "white"
+            ? "ring-black azerty flex"
+            : undefined
+        )}
+      />
+      `,
+      errors: [
+        {
+          messageId: "customClassnameDetected",
+          data: {
+            classname: "azerty",
           },
         },
       ],

@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-tailwindcss",
-  "version": "1.7.1",
+  "version": "1.13.0",
   "description": "Rules enforcing best practices while using Tailwind CSS",
   "keywords": [
     "eslint",
@@ -20,8 +20,12 @@
   "scripts": {
     "test": "mocha tests --recursive"
   },
+  "files": [
+    "lib"
+  ],
   "dependencies": {
-    "requireindex": "~1.1.0",
+    "fast-glob": "^3.2.5",
+    "postcss": "^8.3.0",
     "tailwindcss": "^2.1.2"
   },
   "devDependencies": {
@@ -29,7 +33,8 @@
     "@tailwindcss/line-clamp": "^0.2.0",
     "@tailwindcss/typography": "^0.4.0",
     "eslint": "^7.1.0",
-    "mocha": "^7.2.0"
+    "mocha": "^7.2.0",
+    "vue-eslint-parser": "^7.6.0"
   },
   "engines": {
     "node": ">=12.13.0"
